@@ -4,27 +4,27 @@ import Footer from "./components/Footer";
 
 import { Route, Routes, Navigate } from "react-router-dom";
 
-import axios from "axios";
+
 import Signup from "./components/Signup/Signup";
 import Home from "./components/Home";
 
 class App extends React.Component {
   state = { details: [] };
 
-  componentDidMount() {
-    let data;
-    axios
-      .get("http://localhost:8000/user/")
-      .then((res) => {
-        data = res.data;
-        this.setState({
-          details: data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // componentDidMount() {
+  //   let data;
+  //   axios
+  //     .get("http://localhost:8000/user/")
+  //     .then((res) => {
+  //       data = res.data;
+  //       this.setState({
+  //         details: data,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
   render() {
     return (

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState} from "react";
-import axios from "axios";
 import "./Signup.css";
 import Header from "../Header";
 
@@ -65,17 +64,32 @@ const Signup = () => {
 
   
 
-  const handleSignup = () => {
-    axios
-      .post("http://localhost:8000/user/", userData)
-      .then((response) => {
-        console.log("User signed up successfully!");
-      })
-      .catch((error) => {
-        console.error("Error signing up:", error);
-      });
+  const handleSignup = async () => {
+    console.log("userData:", userData);
+    const url = "http://localhost:8000/user/signup/";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+  
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        console.log(response.data);
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      console.log(data);
+      console.log("User signed up successfully!");
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
   };
-
+  
+  
   return (
     <div>
       <Header />
