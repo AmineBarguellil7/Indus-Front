@@ -1,26 +1,12 @@
-import React, {  useState } from "react";
-import "./Signup.css";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import "./Login.css";
+import { NavLink} from "react-router-dom";
 
-const Signup = () => {
-  const [userData, setUserData] = useState({
-    username: "",
+const Login = () => {
+  const [loginData, setLoginData] = useState({
     email: "",
     password: "",
-    isSupervisor: false
   });
-
-
-  const navigate = useNavigate();
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
-  };
-
 
   // useEffect(() => {
   //   if (NavBarRef.current) {
@@ -28,6 +14,8 @@ const Signup = () => {
   //     window.scrollBy(10, NavBarHeight + 800);
   //   }
   // }, []);
+
+
 
   const Header = (
     <div className="header-area header-transparent">
@@ -117,14 +105,14 @@ const Signup = () => {
                     Ullamcorper fringi tortor consec adipis elit sed do eiusmod
                     tempor.
                   </p>
-                  <Link
+                  <NavLink
                     to="/login"
                     className="btn_10 hero-btn"
                     data-animation="bounceIn"
                     data-delay=".8s"
                   >
                     Login <img src="img/icon/right-arrow.svg" alt="" />
-                  </Link>
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -134,30 +122,33 @@ const Signup = () => {
     </div>
   );
 
-  const handleSignup = async () => {
-    console.log("userData:", userData);
-    const url = "http://localhost:8000/user/signup/";
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setLoginData((prevLoginData) => ({
+      ...prevLoginData,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async () => {
+    console.log("loginData:", loginData);
+    const url = "http://localhost:8000/user/login/";
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(loginData),
     };
 
     try {
       const response = await fetch(url, options);
-
-      if (response.ok) {
-        navigate("/login");
-      }
-
       if (!response.ok) {
         console.log(response.data);
         throw new Error("Network response was not ok");
       }
     } catch (error) {
-      console.error("Error signing up:", error);
+      console.error("Error logging in:", error);
     }
   };
 
@@ -165,52 +156,30 @@ const Signup = () => {
     <div>
       {Header}
       {NavBar}
-      <div className="signup-container">
-        <h1>Signup</h1>
+      <div className="login-container">
+        <h1>Login</h1>
         <input
-          className="signup-input"
-          type="text"
-          name="username"
-          value={userData.username}
-          onChange={handleInputChange}
-          placeholder="Username"
-        />
-        <input
-          className="signup-input"
+          className="login-input"
           type="email"
           name="email"
-          value={userData.email}
+          value={loginData.email}
           onChange={handleInputChange}
           placeholder="Email"
         />
         <input
-          className="signup-input"
+          className="login-input"
           type="password"
           name="password"
-          value={userData.password}
+          value={loginData.password}
           onChange={handleInputChange}
           placeholder="Password"
         />
-        <label className="checkbox-container">
-          <input
-            type="checkbox"
-            checked={userData.isSupervisor}
-            onChange={() =>
-              setUserData((prevUserData) => ({
-                ...prevUserData,
-                isSupervisor: !prevUserData.isSupervisor,
-              }))
-            }
-          />
-          <span className="checkmark"></span>
-          I am a supervisor
-        </label>
-        <button className="signup-button" onClick={handleSignup}>
-          Signup
+        <button className="login-button" onClick={handleLogin}>
+          Login
         </button>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default Login;

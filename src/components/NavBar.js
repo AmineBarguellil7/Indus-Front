@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
   return (
@@ -16,15 +17,15 @@ export default function NavBar() {
                     Ullamcorper fringi tortor consec adipis elit sed do eiusmod
                     tempor.
                   </p>
-                  <a
-                    href="services.html"
+                  <Link
+                    to="/login"
                     className="btn_10 hero-btn"
                     data-animation="bounceIn"
                     data-delay=".8s"
                   >
-                    Check Our Services{" "}
+                    Login{" "}
                     <img src="img/icon/right-arrow.svg" alt="" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

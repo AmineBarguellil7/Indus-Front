@@ -7,6 +7,8 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 import Signup from "./components/Signup/Signup";
 import Home from "./components/Home";
+import Login from "./components/Login/Login";
+import LeafletMap from "./components/LeafletMap";
 
 class App extends React.Component {
   state = { details: [] };
@@ -42,6 +44,8 @@ class App extends React.Component {
           <Route exact path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
           <Route path="/SignUp" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/map" element={<LeafletMap />} />
         </Routes>
         <Footer />
         {/*<Section />*/}

@@ -13,7 +13,7 @@ export default function Footer() {
                     <div className="single-footer-caption mb-30">
                       <div className="footer-logo mb-35">
                         <a href="index-2.html">
-                          <img src="img/logo/logo2_footer.png" alt="" />
+                          <img src="img/logo/logo_footer.png" alt="" />
                         </a>
                       </div>
                       <div className="footer-tittle">
@@ -130,19 +130,7 @@ export default function Footer() {
                         <script>
                           document.write(new Date().getFullYear());
                         </script>{" "}
-                        All rights reserved | This template is made with{" "}
-                        <i
-                          className="fa fa-heart color-danger"
-                          aria-hidden="true"
-                        ></i>{" "}
-                        by{" "}
-                        <a
-                          href="https://colorlib.com/"
-                          target="_blank"
-                          rel="nofollow noopener"
-                        >
-                          Colorlib
-                        </a>
+                        All rights reserved
                       </p>
                     </div>
                   </div>

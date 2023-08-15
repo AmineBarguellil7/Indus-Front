@@ -1,34 +1,88 @@
-import React, {  useState } from "react";
-import "./Signup.css";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-
-const Signup = () => {
-  const [userData, setUserData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    isSupervisor: false
-  });
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet-draw/dist/leaflet.draw.css";
+import L from "leaflet";
+import "leaflet-draw";
+import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 
 
-  const navigate = useNavigate();
+const DrawControl = () => {
+  const map = useMap();
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
-  };
+  useEffect(() => {
+    const drawControl = new L.Control.Draw({
+      draw: {
+        marker: true,
+        circle: false,
+        circlemarker: false,
+        polyline: false,
+        polygon: {
+          showArea: true,
+          allowIntersection: false,
+          drawError: {
+            color: "#e1e100",
+            message: "<strong>Draw Error</strong> (because of intersecting)",
+          },
+          shapeOptions: {
+            color: "#97009c",
+          },
+        },
+      },
+    });
 
+    map.addControl(drawControl);
 
-  // useEffect(() => {
-  //   if (NavBarRef.current) {
-  //     const NavBarHeight = NavBarRef.current.offsetTop;
-  //     window.scrollBy(10, NavBarHeight + 800);
-  //   }
-  // }, []);
+    const handlePolygonDrawn = (e) => {
+      const layer = e.layer;
+      const latlngs = layer.getLatLngs();
+      let polygonData = {
+        location: [],
+      };
 
+      for (var i = 0; i < latlngs[0].length; i++) {
+        var lat = latlngs[0][i].lat;
+        var lng = latlngs[0][i].lng;
+        polygonData.location.push([lng, lat]);
+      }
+      let firstLatLng = latlngs[0][0];
+      polygonData.location.push([firstLatLng.lng, firstLatLng.lat]);
+
+      console.log(polygonData);
+
+      sendDataToServer(polygonData);
+    };
+
+    const sendDataToServer = async (polygonData) => {
+      if (polygonData) {
+        try {
+          await fetch("http://localhost:8000/polygone/create_polygon/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(polygonData),
+          });
+        } catch (error) {
+          // Error handling...
+        }
+      }
+    };
+
+    map.on(L.Draw.Event.CREATED, handlePolygonDrawn);
+
+    return () => {
+      map.removeControl(drawControl);
+      map.off(L.Draw.Event.CREATED, handlePolygonDrawn);
+    };
+  }, [map]);
+
+  return null; // No need to render anything for this component
+};
+
+const LeafletMap = () => {
+
+  
   const Header = (
     <div className="header-area header-transparent">
       <div className="main-header">
@@ -91,7 +145,6 @@ const Signup = () => {
                   </nav>
                 </div>
               </div>
-
               <div className="col-12">
                 <div className="mobile_menu d-block d-lg-none"></div>
               </div>
@@ -117,14 +170,14 @@ const Signup = () => {
                     Ullamcorper fringi tortor consec adipis elit sed do eiusmod
                     tempor.
                   </p>
-                  <Link
+                  <NavLink
                     to="/login"
                     className="btn_10 hero-btn"
                     data-animation="bounceIn"
                     data-delay=".8s"
                   >
                     Login <img src="img/icon/right-arrow.svg" alt="" />
-                  </Link>
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -133,84 +186,30 @@ const Signup = () => {
       </div>
     </div>
   );
+  
 
-  const handleSignup = async () => {
-    console.log("userData:", userData);
-    const url = "http://localhost:8000/user/signup/";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
+  const position = [51.505, -0.09];
 
-    try {
-      const response = await fetch(url, options);
-
-      if (response.ok) {
-        navigate("/login");
-      }
-
-      if (!response.ok) {
-        console.log(response.data);
-        throw new Error("Network response was not ok");
-      }
-    } catch (error) {
-      console.error("Error signing up:", error);
-    }
-  };
-
+  
   return (
     <div>
       {Header}
       {NavBar}
-      <div className="signup-container">
-        <h1>Signup</h1>
-        <input
-          className="signup-input"
-          type="text"
-          name="username"
-          value={userData.username}
-          onChange={handleInputChange}
-          placeholder="Username"
-        />
-        <input
-          className="signup-input"
-          type="email"
-          name="email"
-          value={userData.email}
-          onChange={handleInputChange}
-          placeholder="Email"
-        />
-        <input
-          className="signup-input"
-          type="password"
-          name="password"
-          value={userData.password}
-          onChange={handleInputChange}
-          placeholder="Password"
-        />
-        <label className="checkbox-container">
-          <input
-            type="checkbox"
-            checked={userData.isSupervisor}
-            onChange={() =>
-              setUserData((prevUserData) => ({
-                ...prevUserData,
-                isSupervisor: !prevUserData.isSupervisor,
-              }))
-            }
-          />
-          <span className="checkmark"></span>
-          I am a supervisor
-        </label>
-        <button className="signup-button" onClick={handleSignup}>
-          Signup
-        </button>
-      </div>
+      <MapContainer
+        center={position}
+        zoom={13}
+        style={{
+          height: "400px",
+          width: "100%",
+          marginTop: "100px",
+          marginBottom: "100px",
+        }}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <DrawControl/>
+      </MapContainer>
     </div>
   );
 };
 
-export default Signup;
+export default LeafletMap;
