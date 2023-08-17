@@ -3,7 +3,10 @@ import NavBar from "./NavBar";
 import { NavLink } from "react-router-dom";
 
 
-export default function () {
+export default function Home () {
+
+
+  
   
 
   const Header = (

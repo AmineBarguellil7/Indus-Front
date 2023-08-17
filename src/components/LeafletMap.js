@@ -1,11 +1,10 @@
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Polygon, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import L from "leaflet";
 import "leaflet-draw";
 import { NavLink } from "react-router-dom";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
 
 const DrawControl = () => {
   const map = useMap();
@@ -77,12 +76,12 @@ const DrawControl = () => {
     };
   }, [map]);
 
-  return null; // No need to render anything for this component
+  return null;
 };
 
 const LeafletMap = () => {
+  const [polygons, setPolygons] = useState([]);
 
-  
   const Header = (
     <div className="header-area header-transparent">
       <div className="main-header">
@@ -186,11 +185,25 @@ const LeafletMap = () => {
       </div>
     </div>
   );
-  
 
   const position = [51.505, -0.09];
 
-  
+  useEffect(() => {
+    const fetchPolygons = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/polygone/get-all-polygons/"
+        );
+        const data = await response.json();
+        setPolygons(data);
+      } catch (error) {
+        console.error("Error fetching polygons:", error);
+      }
+    };
+
+    fetchPolygons();
+  }, []);
+
   return (
     <div>
       {Header}
@@ -206,7 +219,42 @@ const LeafletMap = () => {
         }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <DrawControl/>
+        <DrawControl />
+        {!polygons ? (
+          <p>Loading polygons...</p>
+        ) : (
+          <>
+            {console.log("Polygons:", polygons)}
+            {polygons.map((polygon) => {
+              const geometryString = polygon.fields.polygon;
+              const coordinatesMatch = geometryString.match(/\(\(([^)]+)\)\)/);
+              if (!coordinatesMatch) {
+                console.warn(
+                  "Invalid coordinates format for polygon:",
+                  polygon
+                );
+                return null; // Skip rendering this polygon
+              }
+              const coordinatesString = coordinatesMatch[1];
+              const coordinatesArray = coordinatesString
+                .split(", ")
+                .map(function (coord) {
+                  const [lng, lat] = coord.split(" ");
+                  return [parseFloat(lat), parseFloat(lng)];
+                });
+
+              return (
+                <Polygon
+                  key={polygon.pk} // Use the primary key as the key
+                  positions={coordinatesArray}
+                  color="#97009c"
+                >
+                  <Popup>{polygon.fields.name}</Popup>
+                </Polygon>
+              );
+            })}
+          </>
+        )}
       </MapContainer>
     </div>
   );

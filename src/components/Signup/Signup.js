@@ -1,6 +1,7 @@
 import React, {  useState } from "react";
 import "./Signup.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Toaster, toast } from "react-hot-toast";
 
 const Signup = () => {
   const [userData, setUserData] = useState({
@@ -149,7 +150,8 @@ const Signup = () => {
       const response = await fetch(url, options);
 
       if (response.ok) {
-        navigate("/login");
+        toast.success("registered successfully");
+        setTimeout(() => navigate("/login"), 2000);
       }
 
       if (!response.ok) {
@@ -165,6 +167,7 @@ const Signup = () => {
     <div>
       {Header}
       {NavBar}
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="signup-container">
         <h1>Signup</h1>
         <input

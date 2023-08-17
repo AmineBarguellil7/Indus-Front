@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { NavLink} from "react-router-dom";
+import { NavLink, useNavigate} from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import jwt_decode from "jwt-decode";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+
+
+  const navigate=useNavigate()
 
   // useEffect(() => {
   //   if (NavBarRef.current) {
@@ -131,7 +136,6 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    console.log("loginData:", loginData);
     const url = "http://localhost:8000/user/login/";
     const options = {
       method: "POST",
@@ -143,8 +147,31 @@ const Login = () => {
 
     try {
       const response = await fetch(url, options);
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("access_token",data.access_token);
+        toast(data.message, {
+          icon: "😁",
+        })
+        const token = localStorage.getItem("access_token");
+        if (token) {
+          const decoded = jwt_decode(token);
+          console.log(decoded);
+          const userId = decoded.user_id;
+          const url =`http://localhost:8000/user/get-user/${userId}/`;
+          const options = {
+          method: "GET"};
+          const response = await fetch(url, options);
+          const data = await response.json();
+          if (data.isSupervisor) {
+            setTimeout(() => navigate("/map"), 2000);
+          }
+          else {
+            setTimeout(() => navigate("/home"), 2000);
+          }
+        }
+      }
       if (!response.ok) {
-        console.log(response.data);
         throw new Error("Network response was not ok");
       }
     } catch (error) {
@@ -156,6 +183,7 @@ const Login = () => {
     <div>
       {Header}
       {NavBar}
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="login-container">
         <h1>Login</h1>
         <input

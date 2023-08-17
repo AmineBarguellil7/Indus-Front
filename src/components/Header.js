@@ -2,6 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 export default function Header() {
+
+
+
   return (
     <div className="header-area header-transparent">
       <div className="main-header">
@@ -123,6 +126,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
   );
 }
