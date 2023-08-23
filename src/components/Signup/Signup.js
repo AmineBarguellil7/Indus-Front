@@ -2,6 +2,7 @@ import React, {  useState } from "react";
 import "./Signup.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
+import Footer from "../Footer";
 
 const Signup = () => {
   const [userData, setUserData] = useState({
@@ -38,9 +39,9 @@ const Signup = () => {
             <div className="row align-items-center">
               <div className="col-xl-2 col-lg-2">
                 <div className="logo">
-                  <a href="index-2.html">
+                  <NavLink to="/home">
                     <img src="img/logo/MyLogo.png" alt="" />
-                  </a>
+                  </NavLink>
                 </div>
               </div>
               <div className="col-xl-10 col-lg-10">
@@ -51,30 +52,10 @@ const Signup = () => {
                         <NavLink to="/home">Home</NavLink>
                       </li>
                       <li>
-                        <a href="services.html">Services</a>
+                        <NavLink to="/map">Map</NavLink>
                       </li>
                       <li>
-                        <a href="project.html">Projects</a>
-                      </li>
-                      <li>
-                        <a href="about.html">About</a>
-                      </li>
-                      <li>
-                        <a href="blog.html">Blog</a>
-                        <ul className="submenu">
-                          <li>
-                            <a href="blog.html">Blog</a>
-                          </li>
-                          <li>
-                            <a href="blog_details.html">Blog Details</a>
-                          </li>
-                          <li>
-                            <a href="elements.html">Elements</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="contact.html">Contact</a>
+                        <NavLink to="/contact">Contact</NavLink>
                       </li>
                       <li>
                         <div className="nav-search search-switch">
@@ -115,8 +96,7 @@ const Signup = () => {
                     Best technology and awesome service we offer
                   </h1>
                   <p data-animation="fadeInUp" data-delay=".4s">
-                    Ullamcorper fringi tortor consec adipis elit sed do eiusmod
-                    tempor.
+                  Empowered by cutting-edge technology, we deliver an unparalleled and exceptional service experience.
                   </p>
                   <Link
                     to="/login"
@@ -212,6 +192,7 @@ const Signup = () => {
           Signup
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

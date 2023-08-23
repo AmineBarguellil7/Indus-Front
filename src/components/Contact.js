@@ -1,9 +1,8 @@
 import React from "react";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-export default function Footer() {
+export default function Contact() {
   return (
-    <>
       <div>
         <div className="footer-wrapper">
           <div className="footer-area footer-padding">
@@ -13,35 +12,52 @@ export default function Footer() {
                   <div className="single-footer-caption mb-50">
                     <div className="single-footer-caption mb-30">
                       <div className="footer-logo mb-35">
-                        <NavLink to="/home">
+                        <a href="index-2.html">
                           <img src="img/logo/logo_footer.png" alt="" />
-                        </NavLink>
+                        </a>
                       </div>
                       <div className="footer-tittle">
                         <div className="footer-pera">
                           <p>
-                          Pioneering technology fused with unparalleled service excellence
+                            Duis aute irure dolor inasfa reprehenderit in
+                            voluptate velit esse cillum
                           </p>
                         </div>
+                        <ul className="mb-20">
+                          <li className="number">
+                            <a href="#">10 (87) 738-3940</a>
+                          </li>
+                          <li className="number2">
+                            <a href="#">
+                              <span
+                                className="__cf_email__"
+                                data-cfemail="5635393822373522163537242137253e7835393b"
+                              >
+                                [email&#160;protected]
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+
                         <ul className="footer-social">
                           <li>
-                            <a href="https://www.instagram.com/?hl=fr">
+                            <a href="#">
                               <i className="fab fa-instagram"></i>
                             </a>
                           </li>
                           <li>
-                            <a href="https://www.facebook.com/">
+                            <a href="https://bit.ly/sai4ull">
                               <i className="fab fa-facebook"></i>
                             </a>
                           </li>
                           <li>
-                            <a href="https://www.linkedin.com/in/amine-barguellil-ba3050236/">
+                            <a href="#">
                               <i className="fab fa-linkedin-in"></i>
                             </a>
                           </li>
                           <li>
                             {" "}
-                            <a href="https://www.youtube.com/">
+                            <a href="#">
                               <i className="fab fa-youtube"></i>
                             </a>
                           </li>
@@ -74,7 +90,7 @@ export default function Footer() {
                       <h4>Services</h4>
                       <ul>
                         <li>
-                          <NavLink to="/map">Map</NavLink>
+                          <a href="#">Map</a>
                         </li>
                       </ul>
                     </div>
@@ -109,28 +125,5 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-      <div className="search-model-box">
-        <div className="h-100 d-flex align-items-center justify-content-center">
-          <div className="search-close-btn">+</div>
-          <form className="search-model-form">
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Searching key....."
-            />
-          </form>
-        </div>
-      </div>
-
-      <div id="back-top">
-        <a className="wrapper" title="Go to Top" href="#">
-          <div className="arrows-container">
-            <div className="arrow arrow-one"></div>
-            <div className="arrow arrow-two"></div>
-          </div>
-        </a>
-      </div>
-    </>
   );
 }

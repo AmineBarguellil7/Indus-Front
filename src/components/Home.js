@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "./NavBar";
 import { NavLink } from "react-router-dom";
+import Footer from "./Footer";
 
+export default function Home() {
+  const [isUserConnected, setIsUserConnected] = useState(false);
 
-export default function Home () {
+  useEffect(() => {
+    const checkUserConnection = async () => {
+      try {
+        const accessToken = localStorage.getItem("access_token"); 
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+    
+        const response = await fetch(
+          "http://localhost:8000/user/is-user-connected/",
+          { headers }
+        );
+    
+        const data = await response.json();
+        if (data.status === "A regular user is connected") {
+          setIsUserConnected(true);
+        }
+      } catch (error) {
+        setIsUserConnected(false);
+      }
+    };    
 
-
-  
-  
+    checkUserConnection();
+  }, []);
 
   const Header = (
     <div className="header-area header-transparent">
@@ -17,9 +39,9 @@ export default function Home () {
             <div className="row align-items-center">
               <div className="col-xl-2 col-lg-2">
                 <div className="logo">
-                  <a href="index-2.html">
+                  <NavLink to="/home">
                     <img src="img/logo/MyLogo.png" alt="" />
-                  </a>
+                  </NavLink>
                 </div>
               </div>
               <div className="col-xl-10 col-lg-10">
@@ -30,30 +52,14 @@ export default function Home () {
                         <NavLink to="/home">Home</NavLink>
                       </li>
                       <li>
-                        <NavLink to="/map">Map</NavLink>
+                        {isUserConnected ? (
+                          <NavLink to="/map">Map</NavLink>
+                        ) : (
+                          <NavLink to="/login">Map</NavLink>
+                        )}
                       </li>
                       <li>
-                        <a href="project.html">Projects</a>
-                      </li>
-                      <li>
-                        <a href="about.html">About</a>
-                      </li>
-                      <li>
-                        <a href="blog.html">Blog</a>
-                        <ul className="submenu">
-                          <li>
-                            <a href="blog.html">Blog</a>
-                          </li>
-                          <li>
-                            <a href="blog_details.html">Blog Details</a>
-                          </li>
-                          <li>
-                            <a href="elements.html">Elements</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="contact.html">Contact</a>
+                        <NavLink to="/contact">Contact</NavLink>
                       </li>
                       <li>
                         <div className="nav-search search-switch">
@@ -86,6 +92,7 @@ export default function Home () {
     <div>
       {Header}
       <NavBar />
+      <Footer />
     </div>
   );
 }

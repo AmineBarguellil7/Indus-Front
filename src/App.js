@@ -1,14 +1,13 @@
 import React from "react";
-import Footer from "./components/Footer";
-
-
 import { Route, Routes, Navigate } from "react-router-dom";
+
 
 
 import Signup from "./components/Signup/Signup";
 import Home from "./components/Home";
 import Login from "./components/Login/Login";
 import LeafletMap from "./components/LeafletMap";
+import Contact from "./components/Contact";
 
 class App extends React.Component {
   state = { details: [] };
@@ -46,8 +45,8 @@ class App extends React.Component {
           <Route path="/SignUp" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/map" element={<LeafletMap />} />
+          <Route path="/contact" element={<Contact/>} />
         </Routes>
-        <Footer />
         {/*<Section />*/}
       </div>
     );

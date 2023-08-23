@@ -3,6 +3,7 @@ import "./Login.css";
 import { NavLink, useNavigate} from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import jwt_decode from "jwt-decode";
+import Footer from "../Footer";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -30,9 +31,9 @@ const Login = () => {
             <div className="row align-items-center">
               <div className="col-xl-2 col-lg-2">
                 <div className="logo">
-                  <a href="index-2.html">
+                  <NavLink to="/home">
                     <img src="img/logo/MyLogo.png" alt="" />
-                  </a>
+                  </NavLink>
                 </div>
               </div>
               <div className="col-xl-10 col-lg-10">
@@ -43,30 +44,10 @@ const Login = () => {
                         <NavLink to="/home">Home</NavLink>
                       </li>
                       <li>
-                        <a href="services.html">Services</a>
+                        <NavLink to="/map">Map</NavLink>
                       </li>
                       <li>
-                        <a href="project.html">Projects</a>
-                      </li>
-                      <li>
-                        <a href="about.html">About</a>
-                      </li>
-                      <li>
-                        <a href="blog.html">Blog</a>
-                        <ul className="submenu">
-                          <li>
-                            <a href="blog.html">Blog</a>
-                          </li>
-                          <li>
-                            <a href="blog_details.html">Blog Details</a>
-                          </li>
-                          <li>
-                            <a href="elements.html">Elements</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="contact.html">Contact</a>
+                        <NavLink to="/contact">Contact</NavLink>
                       </li>
                       <li>
                         <div className="nav-search search-switch">
@@ -107,8 +88,7 @@ const Login = () => {
                     Best technology and awesome service we offer
                   </h1>
                   <p data-animation="fadeInUp" data-delay=".4s">
-                    Ullamcorper fringi tortor consec adipis elit sed do eiusmod
-                    tempor.
+                  Empowered by cutting-edge technology, we deliver an unparalleled and exceptional service experience.
                   </p>
                   <NavLink
                     to="/login"
@@ -206,6 +186,7 @@ const Login = () => {
           Login
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

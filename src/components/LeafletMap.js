@@ -5,6 +5,10 @@ import L from "leaflet";
 import "leaflet-draw";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Footer from "./Footer";
+import "./css/LeafletMap.css"
+
+
 
 const DrawControl = () => {
   const map = useMap();
@@ -81,6 +85,32 @@ const DrawControl = () => {
 
 const LeafletMap = () => {
   const [polygons, setPolygons] = useState([]);
+  const [headerVisible, setHeaderVisible] = useState(true);
+
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const mapContainer = document.querySelector(".map-container");
+      if (mapContainer) {
+        const mapRect = mapContainer.getBoundingClientRect();
+        if (mapRect.top <= 0) {
+          setHeaderVisible(false);
+        } else {
+          setHeaderVisible(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
+
+  
 
   const Header = (
     <div className="header-area header-transparent">
@@ -90,9 +120,9 @@ const LeafletMap = () => {
             <div className="row align-items-center">
               <div className="col-xl-2 col-lg-2">
                 <div className="logo">
-                  <a href="index-2.html">
+                  <NavLink to="/home">
                     <img src="img/logo/MyLogo.png" alt="" />
-                  </a>
+                  </NavLink>
                 </div>
               </div>
               <div className="col-xl-10 col-lg-10">
@@ -103,30 +133,10 @@ const LeafletMap = () => {
                         <NavLink to="/home">Home</NavLink>
                       </li>
                       <li>
-                        <a href="services.html">Services</a>
+                        <NavLink to="/map">Map</NavLink>
                       </li>
                       <li>
-                        <a href="project.html">Projects</a>
-                      </li>
-                      <li>
-                        <a href="about.html">About</a>
-                      </li>
-                      <li>
-                        <a href="blog.html">Blog</a>
-                        <ul className="submenu">
-                          <li>
-                            <a href="blog.html">Blog</a>
-                          </li>
-                          <li>
-                            <a href="blog_details.html">Blog Details</a>
-                          </li>
-                          <li>
-                            <a href="elements.html">Elements</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="contact.html">Contact</a>
+                        <NavLink to="/contact">Contact</NavLink>
                       </li>
                       <li>
                         <div className="nav-search search-switch">
@@ -166,8 +176,7 @@ const LeafletMap = () => {
                     Best technology and awesome service we offer
                   </h1>
                   <p data-animation="fadeInUp" data-delay=".4s">
-                    Ullamcorper fringi tortor consec adipis elit sed do eiusmod
-                    tempor.
+                  Empowered by cutting-edge technology, we deliver an unparalleled and exceptional service experience.
                   </p>
                   <NavLink
                     to="/login"
@@ -206,8 +215,10 @@ const LeafletMap = () => {
 
   return (
     <div>
-      {Header}
+      {headerVisible && <div>{Header}</div>}
       {NavBar}
+      <div className="map-container">
+      <h2 className="map-title">Consult the Map</h2>
       <MapContainer
         center={position}
         zoom={13}
@@ -217,6 +228,7 @@ const LeafletMap = () => {
           marginTop: "100px",
           marginBottom: "100px",
         }}
+        className="map-container"
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <DrawControl />
@@ -256,6 +268,9 @@ const LeafletMap = () => {
           </>
         )}
       </MapContainer>
+      <button className="logout-button">Logout</button>
+      </div>
+      <Footer />
     </div>
   );
 };

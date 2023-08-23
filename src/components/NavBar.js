@@ -14,8 +14,7 @@ export default function NavBar() {
                     Best technology and awesome service we offer
                   </h1>
                   <p data-animation="fadeInUp" data-delay=".4s">
-                    Ullamcorper fringi tortor consec adipis elit sed do eiusmod
-                    tempor.
+                  Empowered by cutting-edge technology, we deliver an unparalleled and exceptional service experience.
                   </p>
                   <Link
                     to="/login"
