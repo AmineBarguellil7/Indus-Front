@@ -27,16 +27,6 @@ export default function Contact() {
                           <li className="number">
                             <a href="#">10 (87) 738-3940</a>
                           </li>
-                          <li className="number2">
-                            <a href="#">
-                              <span
-                                className="__cf_email__"
-                                data-cfemail="5635393822373522163537242137253e7835393b"
-                              >
-                                [email&#160;protected]
-                              </span>
-                            </a>
-                          </li>
                         </ul>
 
                         <ul className="footer-social">

@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import L from "leaflet";
 import "leaflet-draw";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import "./css/LeafletMap.css"
@@ -196,6 +196,7 @@ const LeafletMap = () => {
   );
 
   const position = [51.505, -0.09];
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchPolygons = async () => {
@@ -212,6 +213,12 @@ const LeafletMap = () => {
 
     fetchPolygons();
   }, []);
+
+
+  const HandleLogout=() => {
+    localStorage.removeItem("access_token");
+    navigate("/login");
+  }
 
   return (
     <div>
@@ -268,7 +275,7 @@ const LeafletMap = () => {
           </>
         )}
       </MapContainer>
-      <button className="logout-button">Logout</button>
+      <button className="logout-button" onClick={HandleLogout}>Logout</button>
       </div>
       <Footer />
     </div>
